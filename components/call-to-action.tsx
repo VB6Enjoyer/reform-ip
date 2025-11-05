@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Mail, Phone, Share2, Users, FileText, Megaphone } from "lucide-react"
 import { useState } from "react"
 
+// CTA cards
 const actions = [
   {
     icon: Mail,
@@ -16,36 +17,42 @@ const actions = [
     description:
       "Email or call your elected officials to demand IP reform. We provide templates and contact information.",
     action: "Get Templates",
+    unavailable: true
   },
   {
     icon: FileText,
     title: "Sign the Petition",
     description: "Add your voice to thousands calling for patent and copyright reform. Every signature matters.",
     action: "Sign Now",
+    unavailable: true
   },
   {
     icon: Share2,
     title: "Share the Evidence",
     description: "Spread awareness on social media. Share statistics and research to educate others.",
     action: "Share",
+    unavailable: true
   },
   {
     icon: Users,
     title: "Join Local Groups",
     description: "Connect with activists in your area working on IP reform and related issues.",
     action: "Find Groups",
+    unavailable: true
   },
   {
     icon: Megaphone,
     title: "Organize Events",
     description: "Host educational events, debates, or protests to raise awareness in your community.",
     action: "Get Resources",
+    unavailable: true
   },
   {
     icon: Phone,
     title: "Support Reform Organizations",
     description: "Donate to or volunteer with organizations actively working on IP policy reform.",
     action: "Learn More",
+    unavailable: true
   },
 ]
 
@@ -55,7 +62,7 @@ export function CallToAction() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle form submission
+    // TODO Handle form submission
     console.log("Form submitted:", { email, message })
   }
 
@@ -82,12 +89,17 @@ export function CallToAction() {
                 </div>
                 <h3 className="text-xl font-bold mb-3 text-balance">{action.title}</h3>
                 <p className="text-muted-foreground mb-4 leading-relaxed">{action.description}</p>
-                <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">{action.action}</Button>
+                <Button
+                  disabled={action.unavailable}
+                  className="w-full bg-accent hover:bg-accent/90 text-accent-foreground disabled:opacity-50"
+                >
+                  {action.unavailable ? "Coming soon" : action.action}
+                </Button>
               </Card>
             )
           })}
         </div>
-
+        {/*
         <div className="max-w-2xl mx-auto">
           <Card className="p-8 bg-primary text-primary-foreground border-none">
             <h3 className="text-2xl font-bold mb-4 text-center">Stay Informed</h3>
@@ -95,6 +107,7 @@ export function CallToAction() {
               Join our mailing list to receive updates on IP reform efforts, new research, and opportunities to take
               action.
             </p>
+
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
@@ -135,8 +148,8 @@ export function CallToAction() {
               <span className="text-accent">12,847</span> people have joined this week
             </span>
           </div>
-        </div>
+        </div>*/}
       </div>
-    </section>
+    </section >
   )
 }

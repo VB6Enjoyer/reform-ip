@@ -8,36 +8,41 @@ interface CounterData {
   unit: string
   description: string
   source: string
+  url?: string
 }
 
 const COUNTERS: CounterData[] = [
   {
     label: "Deaths from Lack of Medicine Access",
-    annualValue: 10_000_000, // WHO estimates ~10M deaths annually from lack of access to essential medicines
+    annualValue: 10_000_000,
     unit: "lives",
     description: "People who died this year due to lack of access to patented medicines",
-    source: "WHO Global Health Observatory",
+    source: "General Assembly of the United Nations (2009)",
+    url: "https://web.archive.org/web/20100703093050/http://www2.ohchr.org/english/bodies/hrcouncil/docs/11session/A.HRC.11.12_en.pdf"
   },
   {
     label: "Economic Deadweight Loss",
-    annualValue: 1_000_000_000_000, // $1 trillion annual deadweight loss estimate
+    annualValue: 25_500_000_000, // $25 billion annual deadweight loss estimate
     unit: "USD",
-    description: "Economic value destroyed by IP monopolies this year",
-    source: "Boldrin & Levine (2008)",
+    description: "(Conservative) economic value destroyed by IP monopolies this year",
+    source: "Beard and Ford (2010)",
+    url: "https://yjolt.org/quantifying-cost-substandard-patents-some-preliminary-evidence"
   },
   {
     label: "Students Denied Educational Materials",
-    annualValue: 500_000_000, // Estimated 500M students affected by copyright restrictions
+    annualValue: 365_500_000,
     unit: "students",
-    description: "Students unable to access copyrighted educational materials this year",
-    source: "Right to Research Coalition",
+    description: "Students unable to access or forced to pirate copyrighted educational materials this year",
+    source: "Estimate from various sources",
+    url: "https://docs.google.com/document/d/1K5lSiuJuaexcvS0zI3oQ_AE42VKFb6DJoVLdFOob6wU/edit?usp=sharing"
   },
   {
     label: "Patent Applications Filed",
-    annualValue: 3_500_000, // ~3.5M patent applications filed globally per year
+    annualValue: 3_600_000, // ~3.6M patent applications filed globally per year
     unit: "applications",
-    description: "New monopolies created this year, restricting innovation",
-    source: "WIPO Statistics Database",
+    description: "New patent monopolies created this year, restricting innovation",
+    source: "World Intellectual Property Organization",
+    url: "https://www.wipo.int/en/ipfactsandfigures/patents"
   },
 ]
 
@@ -52,12 +57,12 @@ function formatNumber(num: number, unit: string): string {
     return `$${num.toLocaleString()}`
   }
 
-  if (num >= 1_000_000) {
+  /*if (num >= 1_000_000) {
     return `${(num / 1_000_000).toFixed(2)}M`
   }
   if (num >= 1_000) {
     return `${(num / 1_000).toFixed(1)}K`
-  }
+  }*/
   return num.toLocaleString()
 }
 
@@ -96,7 +101,21 @@ function Counter({ data }: { data: CounterData }) {
         </div>
         <h3 className="text-lg font-semibold mb-2 text-foreground">{data.label}</h3>
         <p className="text-sm text-muted-foreground mb-3 leading-relaxed">{data.description}</p>
-        <div className="text-xs text-muted-foreground/70 italic">Source: {data.source}</div>
+        <div className="text-xs text-muted-foreground/70 italic">
+          Source:{" "}
+          {data.url ? (
+            <a
+              href={data.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-accent transition-colors"
+            >
+              {data.source}
+            </a>
+          ) : (
+            data.source
+          )}
+        </div>
       </div>
       <div className="absolute inset-0 bg-accent/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
     </div>

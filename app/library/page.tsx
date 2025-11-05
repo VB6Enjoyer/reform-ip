@@ -1,4 +1,4 @@
-"use client"
+"use client" // Marks this as a Next.js Client Component (can use hooks, browser APIs)
 
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/card"
 import { Search, Filter, ArrowUpDown, ExternalLink, BookOpen } from "lucide-react"
 import { useState, useMemo } from "react"
 
+// Domain model for a library work item shown on the page
 type Work = {
   id: number
   title: string
@@ -19,6 +20,8 @@ type Work = {
   url?: string
 }
 
+// Static catalog to render on the Library page.
+// TODO Consider moving to a data file or fetching from an API if it grows.
 const works: Work[] = [
   {
     id: 1,
@@ -28,18 +31,18 @@ const works: Work[] = [
     publisher: "Cambridge University Press",
     type: "Book",
     description:
-      "A comprehensive economic analysis arguing that intellectual property laws restrict innovation and economic growth. The authors present empirical evidence showing that patents and copyrights create monopolies that harm society more than they help.",
-    url: "https://levine.sscnet.ucla.edu/general/intellectual/against.htm",
+      "Comprehensive economic analysis demonstrating that intellectual property laws reduce innovation and economic growth rather than promoting them. Provides historical and empirical evidence across multiple industries.",
+    url: "https://cdn.nakamotoinstitute.org/docs/against-intellectual-monopoly.pdf",
   },
   {
     id: 2,
     title: "The Case Against Patents",
-    author: "Bessen & Meurer",
-    year: 2008,
+    author: "Michele Boldrin & David K. Levine",
+    year: 2012,
     publisher: "Journal of Economic Perspectives",
     type: "Article",
     description:
-      "Empirical research demonstrating that for most industries, patents fail to provide net social benefits. The study shows that patent litigation costs exceed innovation benefits in many sectors.",
+      "Surveys historical evidence showing that industries flourished without patent protection, and that patent systems consistently fail to deliver promised innovation benefits.",
   },
   {
     id: 3,
@@ -50,7 +53,7 @@ const works: Work[] = [
     type: "Book",
     description:
       "A seminal work examining how copyright law has been extended and strengthened to benefit large corporations at the expense of creativity, innovation, and the public domain.",
-    url: "https://www.free-culture.cc/",
+    url: "https://lessig.org/product/free-culture/",
   },
   {
     id: 4,
@@ -61,37 +64,40 @@ const works: Work[] = [
     type: "Book",
     description:
       "An exploration of how intellectual property expansion threatens the public domain and limits access to knowledge, culture, and innovation. Boyle argues for a more balanced approach to IP.",
-    url: "https://www.thepublicdomain.org/",
+    url: "https://thepublicdomain.org/thepublicdomain1.pdf",
   },
   {
     id: 5,
-    title: "Do Patents Discourage Innovation? Evidence from the Life Sciences",
-    author: "Heidi L. Williams",
-    year: 2013,
-    publisher: "Journal of Political Economy",
-    type: "Paper",
+    title: "Patents and Copyrights: Do the Benefits Exceed the Costs?",
+    author: "Julio H. Cole",
+    year: 2001,
+    publisher: "Journal of Libertarian Studies",
+    type: "Article",
     description:
-      "Empirical study showing that gene patents have significantly slowed follow-on innovation in genomics research, with a 20-30% reduction in subsequent scientific research and product development.",
+      "Utilitarian, cost-benefit critique of patents and copyrights. It argues that patents are artificial government-granted monopolies that often hinder innovation, encourage wasteful \"inventing around,\" and distort incentives. It concludes the costs of the patent system likely exceed its overstated benefits.",
+    url: "https://mises.org/journal-libertarian-studies/patents-and-copyrights-do-benefits-exceed-costs"
   },
   {
     id: 6,
-    title: "The Cost of Monopoly: Pharmaceutical Patents and Access to Medicine",
-    author: "Dean Baker",
-    year: 2016,
-    publisher: "Center for Economic and Policy Research",
-    type: "Report",
+    title: "Patent Failure: How Judges, Bureaucrats, and Lawyers Put Innovators at Risk",
+    author: "James Bessen & Michael J. Meurer",
+    year: 2008,
+    publisher: "Princeton University Press",
+    type: "Book",
     description:
-      "Analysis estimating that pharmaceutical patents cost the US economy over $400 billion annually and result in tens of thousands of preventable deaths due to lack of access to affordable medicines.",
+      "Empirical study showing that for most industries, patents decrease innovation incentives due to litigation costs, uncertainty, and blocking effects. Demonstrates the net negative value of the patent system.",
+    url: "https://emilkirkegaard.dk/en/wp-content/uploads/James-Bessen-and-Michael-J.-Meurer-Patent-Failure-How-Judges-Bureaucrats-and-Lawyers-Put-Innovators-at-Risk.pdf"
   },
   {
     id: 7,
-    title: "Copyright and Inequality",
-    author: "Matthew Sag",
-    year: 2019,
-    publisher: "Washington University Law Review",
+    title: "Copyright and Innovation: The Untold Story",
+    author: "Michael A. Carrier",
+    year: 2012,
+    publisher: "Wisconsin Law Review",
     type: "Article",
     description:
-      "Examination of how copyright law exacerbates economic inequality by concentrating wealth among a small number of rights holders while limiting access to knowledge and culture for the broader public.",
+      "Based on interviews with 31 tech and music executives, this paper documents how the recording industry's legal war on Napster created a 'venture capital wasteland,' stifling digital music innovation for a decade.",
+    url: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2099876"
   },
   {
     id: 8,
@@ -106,32 +112,35 @@ const works: Work[] = [
   {
     id: 9,
     title: "Intellectual Property and the Development Divide",
-    author: "Keith E. Maskus",
-    year: 2000,
-    publisher: "World Bank Publications",
-    type: "Report",
+    author: "Margaret Chon",
+    year: 2006,
+    publisher: "Cardozo Law Review",
+    type: "Article",
     description:
-      "Study examining how strong IP protection in developed countries creates barriers for developing nations, limiting technology transfer and access to essential medicines and educational materials.",
+      "Argues that global IP regimes like TRIPS create a 'development divide' by imposing rules that harm developing nations. Proposes a 'substantive equality' principle, drawing from development economics, to ensure IP law is judged on its ability to meet basic human needs like health and education, not just on economic growth.",
+    url: "https://www.jurisafrica.org/wp-content/uploads/2021/07/4vii-Margaret-Chon-Intellectual-Property-and-the-Development-Divide.pdf"
   },
   {
     id: 10,
-    title: "The Innovation Delusion: How Our Obsession with the New Has Disrupted the Work That Matters Most",
-    author: "Lee Vinsel & Andrew L. Russell",
-    year: 2020,
-    publisher: "Currency",
-    type: "Book",
+    title: "Do Patents Facilitate Financing in the Software Industry?",
+    author: "Ronald J. Mann",
+    year: 2005,
+    publisher: "Texas Law Review",
+    type: "Article",
     description:
-      "Critique of innovation-centric thinking and patent systems, arguing that maintenance and incremental improvement are undervalued compared to patentable 'breakthrough' innovations.",
+      "Finds that patents are irrelevant for securing early-stage software funding but become useful later as defensive assets for cross-licensing, according to interviews with VCs and entrepreneurs.",
+    url: "https://scholarship.law.columbia.edu/faculty_scholarship/449"
   },
   {
     id: 11,
-    title: "Patent Failure: How Judges, Bureaucrats, and Lawyers Put Innovators at Risk",
-    author: "James Bessen & Michael J. Meurer",
-    year: 2008,
-    publisher: "Princeton University Press",
-    type: "Book",
+    title: "The Private and Social Costs of Patent Trolls",
+    author: "James Bessen, Jennifer Ford & Michael J. Meurer",
+    year: 2012,
+    publisher: "Boston Univ. School of Law, Law and Economics Research Paper",
+    type: "Article",
     description:
-      "Detailed analysis of the US patent system showing how unclear property rights and excessive litigation costs harm innovation, particularly for small businesses and individual inventors.",
+      "Empirical study measuring the stock market impact of patent troll lawsuits. Finds these suits destroyed half a trillion dollars in wealth from defendant firms, with annual costs exceeding $80 billion, and harm innovation.",
+    url: "https://scholarship.law.bu.edu/faculty_scholarship/241"
   },
   {
     id: 12,
@@ -142,42 +151,67 @@ const works: Work[] = [
     type: "Article",
     description:
       "Introduces the concept of the 'anticommons' where too many property rights can lead to underuse of resources, directly applicable to patent thickets and copyright restrictions.",
+    url: "https://repository.law.umich.edu/cgi/viewcontent.cgi?params=/context/articles/article/1608/&path_info=111HarvLRev621.pdf"
+  },
+  {
+    id: 13,
+    title: "Against Intellectual Property",
+    author: "Stephan Kinsella",
+    year: 2001,
+    publisher: "Journal of Libertarian Studies",
+    type: "Article",
+    description:
+      "An analysis into the legal and ethical problems of intellectual property rights, arguing that they depend on state coercion to create artificial scarcities, inhibit innovation and monopolize markets.",
+    url: "https://cdn.mises.org/15_2_1.pdf"
   },
 ]
 
 export default function LibraryPage() {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [filterType, setFilterType] = useState<string>("All")
+  const [searchQuery, setSearchQuery] = useState("") // Local state for search query text
+  const [filterType, setFilterType] = useState<string>("All") // Current type filter; "All" disables type filtering
+  // Active sort field and order
   const [sortBy, setSortBy] = useState<"year" | "title" | "author">("year")
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc")
 
-  const types = ["All", "Book", "Article", "Essay", "Paper", "Report"]
+  const types = ["All", "Book", "Article", "Essay", "Paper", "Report"] // Options for the type filter dropdown
 
+  // Derive the displayed list from the full dataset based on search, filter, and sort.
+  // Memoized to avoid unnecessary recomputation when dependencies don't change.
   const filteredAndSortedWorks = useMemo(() => {
+    // 1) Filter by search text (case-insensitive) and by selected type
     const filtered = works.filter((work) => {
+      // Match on title, author, or description
       const matchesSearch =
         work.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         work.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
         work.description.toLowerCase().includes(searchQuery.toLowerCase())
-      const matchesType = filterType === "All" || work.type === filterType
+
+      const matchesType = filterType === "All" || work.type === filterType // Either "All" or exact type match
+
       return matchesSearch && matchesType
     })
 
+    // 2) Sort the filtered results by the chosen field and order
     filtered.sort((a, b) => {
       let comparison = 0
+
       if (sortBy === "year") {
-        comparison = a.year - b.year
+        comparison = a.year - b.year // Numeric comparison for years
       } else if (sortBy === "title") {
-        comparison = a.title.localeCompare(b.title)
+        comparison = a.title.localeCompare(b.title) // Locale-aware string comparison for titles
       } else if (sortBy === "author") {
-        comparison = a.author.localeCompare(b.author)
+        comparison = a.author.localeCompare(b.author) // Locale-aware string comparison for authors
       }
-      return sortOrder === "asc" ? comparison : -comparison
+
+      return sortOrder === "asc" ? comparison : -comparison // Apply ascending or descending order
     })
 
-    return filtered
+    return filtered // Return the final list shown in the UI
   }, [searchQuery, filterType, sortBy, sortOrder])
 
+  // Toggle sorting:
+  // - Clicking the current field flips the order.
+  // - Clicking a different field switches field and defaults to descending.
   const toggleSort = (field: "year" | "title" | "author") => {
     if (sortBy === field) {
       setSortOrder(sortOrder === "asc" ? "desc" : "asc")

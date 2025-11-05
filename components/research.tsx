@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { BookOpen, ExternalLink, FileText, GraduationCap } from "lucide-react"
+import { BookOpen, ExternalLink, FileText, GraduationCap, Library } from "lucide-react"
+import Link from "next/link"
 
 const researchPapers = [
   {
@@ -10,7 +11,7 @@ const researchPapers = [
     publication: "Cambridge University Press",
     summary:
       "Comprehensive economic analysis demonstrating that intellectual property laws reduce innovation and economic growth rather than promoting them. Provides historical and empirical evidence across multiple industries.",
-    link: "#",
+    link: "https://cdn.nakamotoinstitute.org/docs/against-intellectual-monopoly.pdf",
     impact: "Foundational work challenging the economic justification for IP",
   },
   {
@@ -19,49 +20,49 @@ const researchPapers = [
     year: "2008",
     publication: "Princeton University Press",
     summary:
-      "Empirical study showing that for most industries, patents decrease innovation incentives due to litigation costs, uncertainty, and blocking effects. Demonstrates net negative value of patent system.",
-    link: "#",
+      "Empirical study showing that for most industries, patents decrease innovation incentives due to litigation costs, uncertainty, and blocking effects. Demonstrates the net negative value of the patent system.",
+    link: "https://emilkirkegaard.dk/en/wp-content/uploads/James-Bessen-and-Michael-J.-Meurer-Patent-Failure-How-Judges-Bureaucrats-and-Lawyers-Put-Innovators-at-Risk.pdf",
     impact: "Quantifies the actual costs of the patent system",
   },
   {
     title: "The Case Against Patents",
-    authors: "Boldrin, Levine, et al.",
+    authors: "Michele Boldrin & David K. Levine",
     year: "2012",
     publication: "Journal of Economic Perspectives",
     summary:
       "Surveys historical evidence showing that industries flourished without patent protection, and that patent systems consistently fail to deliver promised innovation benefits.",
-    link: "#",
+    link: "https://pubs.aeaweb.org/doi/pdfplus/10.1257/jep.27.1.3",
     impact: "Historical evidence against patent necessity",
   },
   {
     title: "Copyright and Innovation: The Untold Story",
-    authors: "Rufus Pollock",
-    year: "2009",
-    publication: "Cambridge Journal of Economics",
+    authors: "Michael A. Carrier",
+    year: "2012",
+    publication: "Wisconsin Law Review",
     summary:
-      "Economic modeling demonstrating that optimal copyright term is approximately 14 years, not the current life+70. Shows massive welfare losses from extended copyright terms.",
-    link: "#",
-    impact: "Quantifies optimal copyright duration",
+      "Based on interviews with 31 tech and music executives, this paper documents how the recording industry's legal war on Napster created a 'venture capital wasteland,' stifling digital music innovation for a decade.",
+    link: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2099876",
+    impact: "Shows the chilling effect of copyright litigation on venture capital and innovation",
   },
   {
     title: "Do Patents Facilitate Financing in the Software Industry?",
-    authors: "Stuart J.H. Graham et al.",
-    year: "2009",
-    publication: "Management Science",
+    authors: "Ronald J. Mann",
+    year: "2005",
+    publication: "Texas Law Review",
     summary:
-      "Empirical analysis showing that software patents do not facilitate financing and may actually harm startups by increasing litigation risk and defensive patenting costs.",
-    link: "#",
-    impact: "Debunks financing justification for software patents",
+      "Finds that patents are irrelevant for securing early-stage software funding but become useful later as defensive assets for cross-licensing, according to interviews with VCs and entrepreneurs.",
+    link: "https://scholarship.law.columbia.edu/faculty_scholarship/449",
+    impact: "Empirical evidence showing patents are defensive tools, not prerequisites for startup funding",
   },
   {
     title: "The Private and Social Costs of Patent Trolls",
-    authors: "James Bessen, Jennifer Ford, & Michael J. Meurer",
-    year: "2011",
-    publication: "Boston University School of Law",
+    authors: "James Bessen, Jennifer Ford & Michael J. Meurer",
+    year: "2012",
+    publication: "Boston Univ. School of Law, Law and Economics Research Paper",
     summary:
-      "Documents $500 billion in lost wealth to shareholders from patent troll litigation, representing pure rent-seeking with no innovation benefit.",
-    link: "#",
-    impact: "Quantifies patent troll economic damage",
+      "Empirical study measuring the stock market impact of patent troll lawsuits. Finds these suits destroyed half a trillion dollars in wealth from defendant firms, with annual costs exceeding $80 billion, and harm innovation.",
+    link: "https://scholarship.law.bu.edu/faculty_scholarship/241",
+    impact: "Quantifies the massive economic harm of patent trolls",
   },
 ]
 
@@ -130,7 +131,7 @@ export function Research() {
                     </div>
 
                     <Button variant="outline" size="sm" className="gap-2 bg-transparent">
-                      Read Paper
+                      <a href={paper.link} target="_blank" rel="noopener noreferrer">Read Now</a>
                       <ExternalLink size={14} />
                     </Button>
                   </div>
@@ -140,7 +141,20 @@ export function Research() {
           ))}
         </div>
 
-        <div className="max-w-4xl mx-auto">
+        <div className="text-center">
+          <Button
+            asChild
+            size="lg"
+            className="bg-accent hover:bg-accent/90 text-accent-foreground text-lg px-8 py-6"
+          >
+            <Link href="/library" className="gap-3">
+              <Library size={22} />
+              Explore the Full Library
+            </Link>
+          </Button>
+        </div>
+
+        {/*<div className="max-w-4xl mx-auto">
           <h3 className="text-2xl font-bold mb-8 text-center">Additional Research Resources</h3>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -158,7 +172,7 @@ export function Research() {
               )
             })}
           </div>
-        </div>
+        </div>*/}
       </div>
     </section>
   )

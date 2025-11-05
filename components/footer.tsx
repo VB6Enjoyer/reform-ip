@@ -1,4 +1,4 @@
-import { Github, Twitter, Mail } from "lucide-react"
+import { Github, Twitter, Mail, X } from "lucide-react"
 
 export function Footer() {
   return (
@@ -71,17 +71,17 @@ export function Footer() {
           <div>
             <h4 className="font-bold mb-4">Connect</h4>
             <div className="flex gap-4 mb-4">
-              <a href="#" className="hover:text-accent transition-colors" aria-label="Twitter">
+              <a href="https://x.com/witheredsummer" className="hover:text-accent transition-colors" aria-label="Twitter">
                 <Twitter size={20} />
               </a>
-              <a href="#" className="hover:text-accent transition-colors" aria-label="GitHub">
+              <a href="https://github.com/VB6Enjoyer" className="hover:text-accent transition-colors" aria-label="GitHub">
                 <Github size={20} />
               </a>
-              <a href="#" className="hover:text-accent transition-colors" aria-label="Email">
+              <a href="mailto:71mwhifd8@mozmail.com" className="hover:text-accent transition-colors" aria-label="Email">
                 <Mail size={20} />
               </a>
             </div>
-            <p className="text-sm text-primary-foreground/70">contact@reformip.org</p>
+            <p className="text-sm text-primary-foreground/70">71mwhifd8@mozmail.com</p>
           </div>
         </div>
 

@@ -1,27 +1,29 @@
-"use client"
+"use client" // Marks this as a Next.js Client Component (can use hooks, browser APIs)
 
 import { useState } from "react"
-
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ExternalLink, Globe, Users, BookOpen, Scale, Newspaper, GraduationCap } from "lucide-react"
+import { ExternalLink, Globe, Users, BookOpen, Scale, Newspaper, GraduationCap, Rss } from "lucide-react"
 
+// Define the TypeScript type for a single resource item.
 type Resource = {
   id: number
   name: string
   url: string
   description: string
-  category: "Organization" | "Research" | "Legal" | "News" | "Education" | "Community"
-  icon: typeof Globe
+  category: "Organization" | "Research" | "Legal" | "News" | "Education" | "Community" | "Blog"
+  icon: typeof Globe // TODO Note: This could be typed more generically as `React.ElementType` or `LucideIcon` if you import it.
 }
 
+// Static catalog to render on the Resources page.
+// TODO Consider moving to a data file or fetching from an API if it grows.
 const resources: Resource[] = [
   {
     id: 1,
     name: "Electronic Frontier Foundation (EFF)",
-    url: "https://www.eff.org/issues/intellectual-property",
+    url: "https://www.eff.org",
     description:
       "Leading nonprofit defending civil liberties in the digital world, with extensive work on copyright reform, fair use, and patent trolls.",
     category: "Organization",
@@ -56,12 +58,12 @@ const resources: Resource[] = [
   },
   {
     id: 5,
-    name: "Against Intellectual Monopoly (Book Website)",
-    url: "https://levine.sscnet.ucla.edu/general/intellectual/against.htm",
+    name: "Center for the Study of Innovative Freedom",
+    url: "https://c4sif.org/",
     description:
-      "Free online version of the influential book by Boldrin and Levine, with additional resources and research on IP economics.",
-    category: "Research",
-    icon: BookOpen,
+      "Blog focused on research and arguments against intellectual property from a libertarian perspective.",
+    category: "Blog",
+    icon: Rss,
   },
   {
     id: 6,
@@ -74,8 +76,8 @@ const resources: Resource[] = [
   },
   {
     id: 7,
-    name: "Center for Economic and Policy Research - IP Research",
-    url: "https://cepr.net/",
+    name: "Center for Economic and Policy Research",
+    url: "https://cepr.net/topics/intellectual-property/",
     description:
       "Progressive think tank producing research on the economic impacts of intellectual property, particularly pharmaceutical patents.",
     category: "Research",
@@ -101,8 +103,8 @@ const resources: Resource[] = [
   },
   {
     id: 10,
-    name: "Ars Technica - Law & Policy",
-    url: "https://arstechnica.com/tech-policy/",
+    name: "Ars Technica",
+    url: "https://arstechnica.com/",
     description:
       "Technology news site with in-depth coverage of IP law, patent litigation, copyright policy, and digital rights.",
     category: "News",
@@ -110,11 +112,11 @@ const resources: Resource[] = [
   },
   {
     id: 11,
-    name: "Copyfight",
-    url: "https://copyfight.corante.com/",
+    name: "GNU Project",
+    url: "https://www.gnu.org/",
     description:
-      "Blog covering copyright, fair use, and intellectual property policy from legal and policy perspectives.",
-    category: "News",
+      "Extensive collection of collaborative free software licensed under the General Public License (GPL).",
+    category: "Community",
     icon: Newspaper,
   },
   {
@@ -180,17 +182,39 @@ const resources: Resource[] = [
     category: "Community",
     icon: Globe,
   },
+  {
+    id: 19,
+    name: "Creative Commons",
+    url: "https://creativecommons.org/",
+    description:
+      "International non-profit organization devoted to educational access and expanding the range of creative works available for others to build upon legally and to share.",
+    category: "Organization",
+    icon: Users,
+  },
+  {
+    id: 20,
+    name: "Internet Archive",
+    url: "https://archive.org/",
+    description:
+      "Online non-profit organization with a community library of billions of media and websites, often targeted by copyright claims.",
+    category: "Organization",
+    icon: Users,
+  }
 ]
 
-const categories = ["All", "Organization", "Research", "Legal", "News", "Education", "Community"] as const
+// Define a constant array of all possible categories for filtering.
+const categories = ["All", "Organization", "Research", "Legal", "News", "Education", "Community", "Blog"] as const
 
+/**
+ * The main React component for the Resources page.
+ * It displays a filterable list of external resources related to IP reform.
+ */
 export default function ResourcesPage() {
+  // State to manage the currently selected filter category. Defaults to "All".
   const [selectedCategory, setSelectedCategory] = useState<(typeof categories)[number]>("All")
 
-  const filteredResources =
-    selectedCategory === "All" ? resources : resources.filter((r) => r.category === selectedCategory)
-
-  const getCategoryIcon = (category: Resource["category"]) => {
+  // A helper function to retrieve the appropriate icon component for a given category.
+  const getCategoryIcon = (category: Resource["category"]): typeof Globe => {
     switch (category) {
       case "Organization":
         return Users
@@ -204,8 +228,14 @@ export default function ResourcesPage() {
         return GraduationCap
       case "Community":
         return Globe
+      case "Blog":
+        return Rss
     }
   }
+
+  // Memoize the filtered list of resources. It re-calculates only when the selected category changes.
+  const filteredResources =
+    selectedCategory === "All" ? resources : resources.filter((r) => r.category === selectedCategory)
 
   return (
     <div className="min-h-screen bg-background">

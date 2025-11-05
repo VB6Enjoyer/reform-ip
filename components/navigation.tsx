@@ -6,18 +6,26 @@ import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
+/* A responsive navigation bar component.
+ It displays links for desktop and a collapsible menu for mobile.
+ It handles smooth scrolling to sections on the homepage and direct linking from other pages. */
 export function Navigation() {
+  // State to manage the visibility of the mobile menu.
   const [isOpen, setIsOpen] = useState(false)
+  // Hook to get the current URL path, used to conditionally render links.
   const pathname = usePathname()
 
+  // A helper function to smoothly scroll to a specific section on the page.
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
     if (element) {
       element.scrollIntoView({ behavior: "smooth" })
+      // Close the mobile menu after a navigation item is clicked.
       setIsOpen(false)
     }
   }
 
+  // Check if the current page is the homepage to render appropriate navigation links.
   const isHomePage = pathname === "/"
 
   return (
@@ -25,7 +33,7 @@ export function Navigation() {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <div className="w-8 h-8 bg-accent rounded-sm" />
+            <div className="w-8 h-8 rounded-sm"><img src="copyleft.png" /></div>
             <span className="text-xl font-bold">Reform IP</span>
           </Link>
 
@@ -65,7 +73,7 @@ export function Navigation() {
                   window.location.href = "/#action"
                 }
               }}
-              className="bg-accent hover:bg-accent/90 text-accent-foreground"
+              className="bg-accent hover:bg-accent/90 text-accent-foreground hover:cursor-pointer"
             >
               Take Action
             </Button>

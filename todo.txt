@@ -1,0 +1,20 @@
+1. Create a logo.
+2. Add hover tooltip sources for claims.
+3. See if the real-time counters actually count.
+4. Link sources in text for cited data.
+5. Add paper links.
+6. Add a "see more" button at the end of the scholarly evidence section.
+7. Adda Additional Research Resources links
+8. Create rep template.
+9. Create petition.
+10. Add social media sharing links.
+11. Add contact form.
+12. Expand library.
+13. Expand resources.
+14. Handle contact form submission
+15. Implement a FAQ
+16. Implement CTA cards functionality
+17. Collect works for the library
+18. Collect resources
+19. Move library to separate file or create an API
+20. Move resources to separate file or create an API
